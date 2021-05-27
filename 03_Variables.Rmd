@@ -1,0 +1,190 @@
+---
+title: "Variables & Statements"
+author: "J. Huband"
+date: "February 18, 2021"
+output: 
+  html_document:
+  number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Variables and Assignment Statements
+
+The starting point in any programming language is the **variable**.  Variables are used to store information, including:
+
+* Data
+* Results from computations
+* Words, Phrases, Sentences, Documents (inside either single or double quotes)
+* Images
+* Other
+
+Technically, a variable represents a *_memory location_* in the computer, but we can think of it as a label for the data or information that we are using in our program.
+
+Variables are created by *_assigning a value_* to them:
+
+```
+   count <- 12
+   
+   x <- 3.14159
+   
+   ans <- "You are correct!"
+   
+   area <- len * wid
+   
+   size <- size + 2
+
+
+
+```
+
+An assignment statement has the form:
+
+```variable <- expression```
+    
+The `variable` should be on the left-hand-side, followed by the assignment symbol `<-`.  This symbol is a "greater than" sign and a dash, with no spaces between them.  
+The `expression` can be a numeric value, a string, an algebraic expression, etc.  We will see many more examples of expressions later.
+
+<font color=blue>---------------------------------------------------------------</font>
+
+
+#### Variable Names
+
+As the writer of your program, you may choose the names of your variables.  They should be descriptive of the information stored in them (e.g., if the variable hold the name of a file, you could call it filename).
+
+There are a few restrictions for naming variables:
+
+
+* Variable names may be combinations of letters, underscores, and dots.
+
+* Variable names may begin with a letter or underscore, but **never** a number.
+
+*  Variables names may not contain spaces.
+
+*  Variables names should not be _reserved_ words (i.e., word that are used in the R language, such as "if" and "for").
+
+*  Variables are case sensitive (e.g., myVariable is not the same as Myvariable or MyVariable)
+
+
+
+
+**NOTE**:  It is important to watch out for typos in variable names.  Typos can make the difference betweeen correct code and code with serious problems.
+
+<font color=blue>---------------------------------------------------------------</font>
+
+
+  
+
+
+#### A Closer Look as Assignment Statements
+
+Let's look at the assignment statement:
+```
+area <- len * wid
+
+```
+
+Before the computer can perform this assignment, the variables `len` and `wid` must have values assigned to them.  So, a better example for that would include the three assignment statements, as shown below:
+
+```{r}
+len <- 5
+wid <- 4
+area <- len * wid
+
+print(area)
+```
+
+I also include a `print` statement so that we could see the value stored in the variable `area`.
+
+Next, consider the statement:
+
+```
+size <- size + 2
+```
+
+To perform this statement, the computer will start with the right-hand-side.  It will go to the memory location labeled "size" and get a copy of the value stored in that location.  It then will add 2 to that value.  The resulting value will then be placed back in the memory location labeled "size".  The original value that was in "size" will be overwritten with the new value.
+
+Again, before this statement can be performed, the variable `size` must have a value assigned to it.
+
+```{r}
+size <- 3
+size <- size + 2
+
+print(size)
+```
+
+For basic R programming, this will be the general workflow:  the computer will start with the expression on the right-hand-side of the assignment symbol, perform any needed operations, and save the result to the variable on the left-hand-side of the variable.
+
+
+
+<font color=blue>---------------------------------------------------------------</font>
+
+### Activity:  Assigning Values to Variables
+
+Read through the following snippet of code. Try to figure out what values will be printed to the screen.
+
+Then, bring up RStudio, type in and run the code.  Were your guesses correct?
+```
+size <- 5
+print(size)
+
+size <- 2*size
+print(size)
+
+size <- size + 11
+print(size)
+
+size <- size/7
+print(size)
+```
+What happens to the value stored in the variable `size` each time that there is an assignment statement?
+
+<font color=blue>---------------------------------------------------------------</font>
+
+#### Lists
+
+A variable can hold a list of items.  For example, 
+
+```{r}
+
+groceries <- c("milk", "bread", "bananas")
+print(groceries)
+
+```
+
+As you may have noticed in the first statement, the items are enclosed in parentheses, with the letter "c" before the open parenthesis.  The "c" stands for "combine".  In this statement, the computer will create the list of items,  specified inside the parentheses, and save the list to the variable on the left-hand-side of the assignment symbol.
+
+Observing the results from the print statment, we see that the combine command keeps the items as individual strings, rather than combining them as a single string.
+
+In each of the statements below, the variable `x` is assigned a list of values.  Run each of the commands and print `x` to see what it holds.
+
+```
+x <- 5:13
+
+x <- seq(1, 20, by=2)
+
+x <- rep(7, 3)
+
+x <- c(1, "abc", 3.14159)
+
+```
+Describe in words what is happening in each statement.
+
+
+### Vector Operations
+
+When a variable is a list of numeric values, we can use the list in a mathematical formula: 
+
+```{r}
+x <- 1:5
+y <- 2*x
+
+print(x)
+print(y)
+```
+
+Applying mathematical operations to lists of numbers (also called vectors) is called _**vectorization**_.  It is a very powerful tool for performing analytics on data.
+
+
