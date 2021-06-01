@@ -96,7 +96,7 @@ area <- len * wid
 print(area)
 ```
 
-I also include a `print` statement so that we could see the value stored in the variable `area`.
+I also included a `print` statement so that we could see the value stored in the variable `area`.
 
 Next, consider the statement:
 
@@ -154,9 +154,9 @@ print(groceries)
 
 ```
 
-As you may have noticed in the first statement, the items are enclosed in parentheses, with the letter "c" before the open parenthesis.  The "c" stands for "combine".  In this statement, the computer will create the list of items,  specified inside the parentheses, and save the list to the variable on the left-hand-side of the assignment symbol.
+As you may have noticed in the first statement, the items are enclosed in parentheses, with the letter "c" before the open parenthesis.  The "c" stands for "combine".  In this statement, the computer will combine the items into a list and assign the list to the variable `groceries`.  
 
-Observing the results from the print statment, we see that the combine command keeps the items as individual strings, rather than combining them as a single string.
+Observing the results from the print statment, we see that the combine command keeps the items as individual strings, rather than combining them as a single string. 
 
 In each of the statements below, the variable `x` is assigned a list of values.  Run each of the commands and print `x` to see what it holds.
 
