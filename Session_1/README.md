@@ -365,7 +365,7 @@ First, notice that the filename contains the "relative" path to get to the file.
 
 The `readLines` command will "read in" or "pull in" the text as separate lines and will save the lines as a list in the variable `raw_text`.  
 
-If we prefer to have the text as a single string, we will need to use the `paste` command to concatentate the lines.
+If we prefer to have the text as a single string, we will need to use the `paste` command to concatenate the lines.
 
 ```{r}
 raw_text <- paste(readLines("austen_emma_excerpt.txt"), collapse="\n")
@@ -378,18 +378,28 @@ If you want to view the text without the `\n` character visible, you can use the
 cat(raw_text)
 ```
 
+<font color=blue>---------------------------------------------------------------</font>
+### Activity:  Reading a Plain Text File
+* In RStudio, open the file `06_read_text.R` and source it.
+* Follow the instructions to create a single string for the text.
+* Use the `cat` command to display the results.
+
+
 
 <font color=blue>---------------------------------------------------------------</font>
 
 ### Activity:  Reading different formats
 
-Make sure that you have downloaded the file "Books.csv". This file a comma-delimited table with columns for title, author, genre, etc.  You can read the contents of that file with a different read command, specifically:
+* In RStudio, open the file `07_read_csv.R` and source it.
+* The file reads data from a web site and the data does not include a header.  Try to write additional lines of code that will read the file "../Data/Books.csv". This file a comma-delimited table with columns for title, author, genre, etc.  It does have a header in the file.
 ```
 
-url_path <- "https://github.com/jhuband/TurningtheKnobs/blob/main/cancer_data.csv"
-data <- read.csv(url_path)
+url_path <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
+data <- read.csv(url_path, header=FALSE)
+
+print(head(data))
 ```
-Write a program that will read the file "Books.csv" and print the contents to the screen.
+
 
 <font color=blue>---------------------------------------------------------------</font>
 
