@@ -1,0 +1,87 @@
+---
+title: "Text Mining in R"
+author: "JHuband"
+date: "4/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## tidytext
+
+
+The idea behind `tidytext` is that a consistent format for data will make processing it much easier.  In the `tidyverse` of R, data is organized by tables where each column is a variable and each row is an observation.
+
+If you are working in a Humanities discipline, a table may not be the natural state your data.  You may have a text document or corpa.  But if you think of the documents as a collection of words, you can create tables of information about those words.  
+
+Suppose that the word _dream_ occurs in your document.  For each occurrence of the word, you could identify the chapter, paragraph, and sentence where the word appears.  This information can be organized as a table.  For example:
+ 
+|word | chapter | paragraph |sentence|
+|:----|:--------|:----------|:-------|
+|dream| 1| 2|3|
+|dream|2|7|2|
+|dream|5|8|1|
+
+That would be for just one word.  You could expand the table to include all major words in the document. Let's see how we can do this.
+
+
+
+
+
+```{r}
+library(dplyr, verbose=FALSE, warn.conflicts = FALSE)
+
+filename <- "MLK_speech.txt"
+MLK_speech <- readLines(filename)
+
+num_lines <- length(MLK_speech)
+text_table <- tibble(line=1:num_lines, text=MLK_speech)
+
+head(text_table)
+
+```
+
+## Converting text to tidytext
+
+We can split the text into a list of words with the line number where the word occurs:
+
+```{r}
+library(tidytext)
+
+text_words <- text_table %>% unnest_tokens(words, text) 
+head(text_words)
+
+```
+
+Notice that the tokenizer does two things to help us:
+
+1. It converts all words to lowercase;
+
+2. It strips out all punctuation.
+
+These steps are important for putting the words into a format that we can analyze.
+
+Now, let's count the frequency of the words:
+
+```{r}
+text_words <- text_words %>% count(words, sort=TRUE)
+head(text_words)
+```
+Words like _the_ and _and_ do not give us any insight into the meaning of the text.  It would be best if we could eliminate these types of words.
+
+The `tidytext` package includes a list (actually three lists) of words that are commonly used in the English language.  These are called "stop_words".  You can load the "stop_words" with the `data` function:
+
+```{r}
+data(stop_words)
+```
+
+We can remove stop_words from our list with the anti_join function.
+
+```{r}
+text_words <- text_words %>% 
+  anti_join(stop_words, by=c("words"="word"))
+
+head(text_words)
+```
