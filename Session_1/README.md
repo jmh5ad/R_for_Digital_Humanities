@@ -439,7 +439,10 @@ raw_text <- readLines("austen_emma_excerpt.txt")
 ```
 In this example, the function name is "readLines".  The input that it needs is the name of the file "austen_emma_excerpt.txt", and the output of the function (i.e., the text that was read) is assigned to the variable "raw_text".
 
-There are many, many functions available.  Try the following examples to see if you can determine what the various functions do:
+<font color=blue>---------------------------------------------------------------</font>
+
+### Activity: Basic Functions
+There are many, many functions available in R.  Try the following examples (in `08_basic_functions.R`) to see if you can determine what the various functions do:
 
 ```
 x <- sqrt(25.0)
@@ -455,7 +458,6 @@ mySubstring <- substring("Four score and seven years ago", 6, 11)
 print(mySubstring)
 
 ```
-### Functions for Strings
 
 ### Packages
 
@@ -466,27 +468,17 @@ Packages are used to "extend" the R programming language by providing functions 
 So, how do you find functions that you need to accomplish a specific task?  You can search through the web site 
 https://cran.r-project.org/web/views/, which is organized by overarching categories.  However, you may find that searching the internet for a specific task is easier. 
 
-For example, suppose that I have a file that is in a JSON format.  How could I read in that file?  My first step would be to search the internet for keywords, such as "R programming, read JSON file".  Notice that it is important to include "R programming" or "R package" in the search.  Otherwise, you may get very strange results.
+For example, suppose that I have a file in a JSON format.  How could I read in that file?  My first step would be to search the internet for keywords, such as "R programming, read JSON file".  Notice that it is important to include "R programming" or "R package" in the search.  Otherwise, you may get very strange results.
 
+**Note:  This information is provided if you are running R/RStudio on your laptop or desktop**
 Continuing with the JSON example, the first couple of hits that I received mention install the "rjson" package.  Just as we had to install R on our computers, we will need to install any packages that we want to use.  If the package is available through the CRAN repository, we can install it simply by typing 
 ```
 install.packages("packageName")
 ```
 in the Console pane of RStudio.  Of course, we would replace "packageName" with the actual name of the package, but we will need to keep the quotes around the package name.
 
-Depending on the size and number of dependencies of the package, it can take anywhere between a few seconds and close to an hour for a package to install.  Fortunately, we only need to install packages once on our computer.
-<font color=blue>---------------------------------------------------------------</font>
-
-### Activity:  Installing packages
-
-For practice, install the "rjson" package on your computer using the command `install.packages("rjson").  It should take only a few seconds to install.  After you have it installed, you can test it by typing:
-```
-library(rjson)
-raw_text <- fromJSON(file="movies.json")
-
-head(raw_text)
-```
-
+Depending on the size and number of dependencies of the package, it can take anywhere between a few seconds and close to an hour for a package to install.  Fortunately, we only need to install packages once on our computer
+**End Note**
 <font color=blue>---------------------------------------------------------------</font>
 
 ### The `library` Function
@@ -512,8 +504,9 @@ raw_text <- paste(readLines(filename),  collapse="\n"
 print(str_count(raw_text, "Emma"))
 ```
 ## Word Cloud
-Now that we know about packages, we can install and load some interesting packages, such as `wordcloud`.  The `wordcloud` package takes a string text and displays the words in different sizes to show the frequency of the words.
+Now that we know about packages, we can install and load some interesting packages, such as `wordcloud`.  The `wordcloud` package takes a text and displays the words in different sizes to show the frequency of the words.  The larger the word, the more frequently it appears in the text.
 
+For example:
 ```
 library(wordcloud)
 options(warn=-1)
@@ -532,7 +525,15 @@ With the `wordcloud` function, I am passing in the `raw_text`, as well as inform
 * `rot.per` gives the percentage of words that are rotated 90 degrees;
 * `color` provides the color palette used for words with different sizes. 
 
+<font color=blue>---------------------------------------------------------------</font>
 
+### Activity: Word Cloud
+
+* Load the file `09_wordcloud.R` into RStudio and source it.
+* Rerun the example two or three times.  The cloud will change because it is randomly choosing the placement and orientation of the words.
+* Change the filename to "../Data/The_Raven.txt" and resource it.  The cloud should look very different now.
+
+<font color=blue>---------------------------------------------------------------</font>
 
 ## The `tm` package
 When working with text data, there are several steps that are standard for preparing the data for text analysis.  These steps include:
@@ -542,6 +543,7 @@ When working with text data, there are several steps that are standard for prepa
 * Removing punctuation;
 * Removing commonly-occurring words;
 * Reducing words to a root form.
+
 There is a base function in R, `tolower()`, that will convert the text to lower case, but the rest of these tasks can be performed with functions from the `tm` package.
 ```
 library(tm)
@@ -556,14 +558,26 @@ text <- removeNumbers(text)
 text <- removePunctuation(text)
 
 ```
-Let's look at the counts of the remaining words by splitting the words on spaces and using the `table` function.
+Let's look at the counts of the remaining words by splitting the words on spaces using the `strsplit` function and displaying a summary by using the `table` function.
 ```
 words <- unlist(strsplit(text, ' '))
-print(table(words))
+wordSummary <- table(words)
+print(wordSummary)
 ```
+<font color=blue>---------------------------------------------------------------</font>
+
+### Activity: Word Counts
+
+* Open `10_word_counts.R` in RStudio and source the file.
+
+<font color=blue>---------------------------------------------------------------</font>
+
+
 You may notice that there are words in the text, like _the_ and _and_ that do not contribute to the overall meaning of the text. 
 
-We can remove these words with the "stopwords" provided by the `tm` package.  We also can specify that we want to use the stopwords for the English language.  However, when a word is removed, the white space on either side of the word will remain.  But, we can clean that up by using the `stripWhitespace` function.
+We can remove these words with the "stopwords" provided by the `tm` package.  We also can specify that we want to use the stopwords for the English language.  
+
+However, when a word is removed, the white space on either side of the word will remain.  But, we can clean that up by using the `stripWhitespace` function.
 
 ```
 text <- removeWords(text, stopwords("english"))
@@ -573,3 +587,12 @@ words <- unlist(strsplit(text, ' '))
 print(table(words))
 ```
 Now when we look at the table of words, we see a more meaningful list of words.
+
+<font color=blue>---------------------------------------------------------------</font>
+
+### Activity: Stop Word
+
+* Open `11_stop_words.R` in RStudio and source the file.
+* Replace the filename with "../Data/The_Raven.txt" and re-source the file.   
+
+<font color=blue>---------------------------------------------------------------</font>
