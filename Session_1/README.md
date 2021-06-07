@@ -1,6 +1,22 @@
- ## Thoughts on Programming
+#  Introduction to R Programming 
+
+**Description:** This section gives a general overview of programming, followed by basics programming skills:
+*  Variables & Assignment Statements,
+*  Variables that Hold Lists & Vectors,
+*  Reading Text files and Writing Output to the Console,
+*  Existing Functions, 
+*  Creating word clouds, 
+*  Cleaning Text.
+
+Use Case: For Learners in the humanities who are interested in learning about text processing.
+ (Not intended for researchers)
+
+Difficulty: Beginner
+
+Completion Time: 75 minutes
 
 
+## Thoughts on Programming
 
 
 ### Programming in General
