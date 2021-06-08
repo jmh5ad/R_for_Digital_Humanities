@@ -1,5 +1,37 @@
-# Text Mining in R
+#  Introduction to R Programming 
 
+**Description:** This section gives a general overview of text mining using `tidytext` functions.  The grammar and syntax of the `tidy` functions in R are quite different.  :
+*  Variables & Assignment Statements,
+*  Variables that Hold Lists & Vectors,
+*  Reading Text files and Writing Output to the Console,
+*  Existing Functions, 
+*  Creating word clouds, 
+*  Cleaning Text.
+
+Use Case: For Learners in the humanities who are interested in learning about text processing.
+ (Not intended for researchers)
+
+Difficulty: Beginner
+
+Completion Time: 75 minutes
+## Before we get started . . .
+There is a function and an operator that you will want to see.
+1. **`grepl` Function**:  The `grepl` function is included in base R, and is able to determine if a substring exists in a string.  The format is 
+`grepl(substring, string)` It will return a `TRUE` or `FALSE` value.  For example, 
+  ```
+title  <- "Harry Potter and the Chamber of Secrets"
+amberAlert <- grepl('amber', title)
+print(amberAlert)
+  ```
+1. **%in% Operator**:  The "%in%" operator is a way of testing if an string element is in a list.  It also generates a `TRUE` or `FALSE` value.  For example:
+```
+groceries <- c("bread", "orange juice", "chocolate milk", "bananas")
+gotMilk <- "milk" %in% groceries
+print(gotMilk)
+```
+ 
+# Text Mining in R
+Before we start this section, there are two items that you will need to see.
 
 ## tidytext
 
@@ -477,22 +509,65 @@ Suppose we had the sentences:
 If we split this into words, remove stop words, and count the word frequencies, we would find that the words "loved", "loves", and "loving" are counted as separate words.  But, we know that these three words are various forms of the verb "love".  There may be times when we want the convert words to a root or stem word **before** we perform a word count.
 
 Converting words to stem words can be done with the `wordStem` function in the `SnowballC` package.
-```
-library(SnowballC)
-myText <- "As a child, she loved spending time in the garden, but now she loves to sit in a quiet room, reading a book. She is loving the pandemic because it allows her to have that quiet, alone time."
 
+```
+library(dplyr, warn.conflicts = FALSE)
+library(tidytext)
+library(SnowballC)
+
+## Set up text & convert to a tibble
+myText <- "As a child, she loved spending time in the garden, but now she loves to sit in a quiet room, reading a book. She is loving the pandemic because it allows her to have that quiet, alone time."
 text_table <- tibble(text=myText)
 
+## Convert to words & remove stopwords
 data(stop_words)
-stem_words <- text_table %>%
+cleaned_words <- text_table %>%
   unnest_tokens(word, text) %>%
-  filter(! word %in% stop_words$word) %>%
-  mutate(stems=wordStem(word))
+  filter(! word %in% stop_words$word) 
+
+## Create a column with the stem words
+  stem_words <- cleaned_words %>%
+    mutate(stems=wordStem(word))
 
 print(stem_words)
 
+## Count the words, using the stem words
 word_counts <- stem_words %>%
-  count(stems)
+  count(stems) 
 
 print(word_counts)
 ```
+<font color="blue"> __________________________________________________________________________
+ </font>
+
+### Activity:  Counting Stem Words
+* Open the file `13_stemming.R` in RStudio and source it. 
+* Modify the code so that the word counts are in decreasing order.
+
+
+<font color="blue"> __________________________________________________________________________
+ </font>
+
+
+### Activity:  Putting it all together
+* Write an R program that will read in the file `emma_chapter_one.txt`.
+* Preprocess the text by converting to a list of stem words with stop words eliminated.
+* Determine the word counts of the stem words and print them to the console.
+* Create a word cloud of the stem words.
+
+
+<font color="blue"> __________________________________________________________________________
+ </font>
+ 
+
+
+### Activity:  Challenge
+* Write an R program that will read in the documents: `emma_chapter_one.txt`, `MLK_speech.txt`, and `The_Raven.txt`.
+* Create a tibble where a column, named text, is the list of the three texts.  (Hint:  Create a list where each text is an element.  Then, use the list to define a column in the tibble.)
+* Preprocess the text by converting to a list of stem words with stop words eliminated.  (Hint:  This will require more than one function to accomplish. )
+* Determine the word counts of the stem words and print them to the console.
+* Create a word cloud of the stem words.
+
+<font color="blue"> __________________________________________________________________________
+ </font>
+ 
