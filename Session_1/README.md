@@ -371,7 +371,7 @@ For now, we are going to look at reading in plain text files.
 I have a file, _austen-emma-excerpt.txt_(in the _Data_ folder) that contains the first paragraph of the book _Emma_ by Jane Austen.  We can load the text into R's memory by using the _readLines_ command:
 
 ```
-filename = "../Data/austen-emma-excerpt.txt"
+filename <- "../Data/austen-emma-excerpt.txt"
 raw_text <- readLines(filename)
 print(raw_text)
 
@@ -495,6 +495,7 @@ in the Console pane of RStudio.  Of course, we would replace "packageName" with 
 
 Depending on the size and number of dependencies of the package, it can take anywhere between a few seconds and close to an hour for a package to install.  Fortunately, we only need to install packages once on our computer
 **End Note**
+
 <font color=blue>---------------------------------------------------------------</font>
 
 ### The `library` Function
