@@ -13,17 +13,11 @@ text_table <- tibble(line=1:num_lines, text=MLK_speech)
 text_words <- text_table %>% 
   unnest_tokens(words, text) 
 
-## Determine the word frequencies
-word_counts <- text_words %>% count(words, sort=TRUE)
-print(head(word_counts))
-
-
-
-print(head(text_words))
-
+## Load stop_words
 data(stop_words)
+cleaned_words <- text_words %>% 
+  filter(! words %in% stop_words$word)
 
-text_words <- text_words %>% 
-  anti_join(stop_words, by=c("words"="word"))
-
-print(head(text_words))
+## Determine the word frequencies
+word_counts <- cleaned_words %>% count(words, sort=TRUE)
+print(word_counts)

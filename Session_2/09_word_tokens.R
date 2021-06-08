@@ -1,7 +1,7 @@
-library(dplyr, warn.conflicts = FALSE)
+library(dplyr,  warn.conflicts = FALSE)
 library(tidytext)
 
-## Read text
+## Read in text
 filename <- "../Data/MLK_speech.txt"
 MLK_speech <- readLines(filename)
 
@@ -13,11 +13,4 @@ text_table <- tibble(line=1:num_lines, text=MLK_speech)
 text_words <- text_table %>% 
   unnest_tokens(words, text) 
 
-## Load stop_words
-data(stop_words)
-cleaned_words <- text_words %>% 
-  filter(! words %in% stop_words$word)
-
-## Determine the word frequencies
-word_counts <- cleaned_words %>% count(words, sort=TRUE)
-print(head(word_counts))
+print(text_words)
