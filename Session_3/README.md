@@ -1,12 +1,9 @@
 #  Introduction to R Programming 
 
-**Description:** This section gives a general overview of text mining using `tidytext` functions.  The grammar and syntax of the `tidy` functions in R are quite different.  :
-*  Variables & Assignment Statements,
-*  Variables that Hold Lists & Vectors,
-*  Reading Text files and Writing Output to the Console,
-*  Existing Functions, 
-*  Creating word clouds, 
-*  Cleaning Text.
+**Description:** This section provides more functions for text mining and continues with some basic R syntax.
+ 
+*  Sentiment Analysis,
+
 
 Use Case: For Learners in the humanities who are interested in learning about text processing.
  (Not intended for researchers)
@@ -14,152 +11,68 @@ Use Case: For Learners in the humanities who are interested in learning about te
 Difficulty: Beginner
 
 Completion Time: 75 minutes
-## Before we get started . . .
-There is a function and an operator that you will want to see.
-1. **`grepl` Function**:  The `grepl` function is included in base R, and is able to determine if a substring exists in a string.  The format is 
-`grepl(substring, string)` It will return a `TRUE` or `FALSE` value.  For example, 
-  ```
-title  <- "Harry Potter and the Chamber of Secrets"
-amberAlert <- grepl('amber', title)
-print(amberAlert)
-  ```
-1. **%in% Operator**:  The "%in%" operator is a way of testing if an string element is in a list.  It also generates a `TRUE` or `FALSE` value.  For example:
-```
-groceries <- c("bread", "orange juice", "chocolate milk", "bananas")
-gotMilk <- "milk" %in% groceries
-print(gotMilk)
-```
- 
+
 # Sentiment Analysis in R
-Before we start this section, there are two items that you will need to see.
+Sentiment Analysis is a  computational technique for detecting the polarity (i.e., positivity  or negativity) of the meaning associated with a phrase, sentence, paragraph, or document.
 
+There are two type of sentiment analysis:  polarity-based and valence based.  The polarity-based analysis defines words as positive, neutral, or negative; where as, with valence-based analysis, words are assigned a "degree" positivity or negativity.  For example, the word "worst" would be considered more negative than the word "bad".
 
- as follows:
-|Name |               Function |
-|------ | -----------------------------------------------------|
-|filter | for selecting row with specific values or characteristics |       
-|arrange |  for re-ordering rows according to a given criterium    
-|select        | for choosing specific columns  to manipulate      |   
-|  mutate     |     for creating a new column                               |
-| summarize    |  for creating a summary of given columns              |
+As a caveat, sentiment analysis is very difficult for machines to perform.  They cannot detect sarcasm.  So, the results that we get with sentiment analysis should be used as a guide only.
 
-There also is a `group_by` command for applying functions on subsets of data.
+We are going to look at functions in the `sentimentr` package.  The functions do use a valence-based analysis.  It includes a dictionary of commonly-used words in the English language, along with scores for the words.  The scores can range from -1.0 (most negative) to 1.0 (most positive).  Combinations of words can produce results that are less than -1.0 or greater than 1.0.
 
-We can feed a _tibble_ into each of these functions by using a "pipe" notation:  `%>%`
-
-Let's see these functions in action.
-
-### Example of `filter` Function
-Suppose that for the MLK speech, we want to look at the lines where the word "dream occurs".  We can select those lines with the `filter` function, but we need a way to determine if the substring "dream" occurs in the string. We can use the `grepl` function.  This function is a part of base R.  The format is `grepl(pattern, string` .  It will determine if the pattern is in the given string.
+Let's look at a simple example:
 ```
-library(dplyr, warn.conflicts = FALSE)
+library(sentimentr)
+text <- "I hate scary movies."
+print(sentiment(text))
 
-## Read in text
+```
+The result:
+```
+   element_id sentence_id word_count sentiment
+1:          1           1          4    -0.625
+```
+The result shows us that there is one element (as opposed to a list of elements).  The one element has one sentence wit 4 words.  The sentiment value is -0.625, which is in the negative range.
+
+Now, let's see what happens when we provide an entire text.
+
+```
+library(sentimentr)
+
+## Read text
 filename <- "../Data/MLK_speech.txt"
-MLK_speech <- readLines(filename)
+MLK_speech <- paste(readLines(filename), collapse=" ")
 
-## Convert to a tibble
-num_lines <- length(MLK_speech)
-text_table <- tibble(line=1:num_lines, text=MLK_speech)
-
-## Let's grab any line that has the word "dream"
-dream_table <- text_table %>%
-   filter(grepl("dream", text))
-   
-print(dream_table)
+MLK_sentiment <- sentiment(MLK_speech)
+print(head(MLK_sentiment))
 ```
-<font color=blue>---------------------------------------------------------------</font>
-
-### Activity: Filter Text
-* Open the file `03_filter_example.R` in RStudio and source it.
-* Notice that the result from the `filter` function is another tibble.
-* 
-<font color=blue>---------------------------------------------------------------</font>
-    
-###                                                Example of `arrange` Function
-If we want to sort a table based on the contents of a specific column, we can use the `arrange` function
+The results:
 ```
-library(dplyr)
+     element_id sentence_id word_count   sentiment
+1:          1           1         27  0.43301270
+2:          1           2         19  0.43588989
+3:          1           3         28 -0.34016803
+4:          1           4         14  0.20044593
+5:          1           5         14  0.08017837
+6:          1           6         26 -0.39223227
 
-word <- c("dream", "dream", "dream")
-chapter <- c(1, 2, 3)
-paragraph <- c(2, 8, 7)
-sentence <- c(3, 1, 2)
-
-myTable <- tibble(word = word, chapter = chapter, paragraph=paragraph, sentence = sentence)
-
-myTable <- myTable %>% arrange(sentence)
-print(myTable)
-
-myTable <- myTable %>% arrange(desc(chapter))
-print(myTable)
 ```
-<font color=blue>---------------------------------------------------------------</font>
-
-### Activity: Arrange Example
-* Open the file `04_arrange_example.R` in RStudio and source it.
-* Notice that the default for arranging the data is in increasing order, but we can use the `desc` function if we want the results in decreasing order.
+Although I "pasted" the text so that it was one long string, the `sentiment` function gives results on a sentence-by-sentence basis.  Some sentences are more negative than others, but it would be nice to have an overall score for the text.  We can get that result by using a `summary` function on the sentiment results:
+```
+print(summary(MLK_sentiment$sentiment)
+```
+or
+```
+print(MLK_sentiment %>% 
+    select(sentiment) %>%
+    summary())
+```
 
 <font color=blue>---------------------------------------------------------------</font>
 
-###                                                Example of `select` Function
-The `select` function allows us to choose a subset of the columns.
-```
-library(dplyr)
-
-word <- c("dream", "dream", "dream")
-chapter <- c(1, 2, 3)
-paragraph <- c(2, 8, 7)
-sentence <- c(3, 1, 2)
-
-myTable <- tibble(word = word, 
-chapter = chapter, paragraph=paragraph, sentence = sentence)
-
-smallTable <- myTable %>% select(chapter, word)
-print(smallTable)
-
-```
-<font color=blue>---------------------------------------------------------------</font>
-
-### Activity: Select Example
-* Open the file `05_select_example.R` in RStudio and source it.
-* Notice that we can list the columns that we want within the `select`function.
+### Activity: Sentiment of Text
+* Open the file `02_sentiment_of_text.R` in RStudio and source it.
+* Add a line to get a summary of the sentiment for the entire text.  Are the results what you would expect?
 
 <font color=blue>---------------------------------------------------------------</font>
-###                                                Example of `mutate` Function
-The 'mutate' function is one of the most used because it allows you to perform computations or apply a function to every element in a column and save the results to another column.
-```
-library(dplyr, warn.conflicts = FALSE)
-
-## Read in text
-filename <- "../Data/MLK_speech.txt"
-MLK_speech <- readLines(filename)
-
-## Convert to a tibble
-num_lines <- length(MLK_speech)
-text_table <- tibble(line=1:num_lines, ext=MLK_speech)
-
-## Let's count the number of characters in each line.
-text_table <- text_table %>%
-  mutate(numChar = nchar(text))
-
-print(text_table)
-```
-<font color=blue>---------------------------------------------------------------</font>
-
-### Activity: Select Example
-* Open the file `06_mutate_example.R` in RStudio and source it.
-* Can you filter out the lines with no characters?
-
-<font color=blue>---------------------------------------------------------------</font>
-###                                                Example of `summarize` Function
-The `summarize` function often is used with a statistical function, like `mean`.
-```
-library(dplyr, warn.conflicts = FALSE)
-
-word <- c("dream", "dream", "dream")
-chapter <- c(1, 2, 3)
-paragraph <- c(2, 8, 7)
-sentence <- c(3, 1, 2)
-
-myTable <- tibble(word = word, chapter = 

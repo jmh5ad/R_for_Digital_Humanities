@@ -1,12 +1,12 @@
 #  Introduction to R Programming 
 
-**Description:** This section gives a general overview of text mining using `tidytext` functions.  The grammar and syntax of the `tidy` functions in R are quite different.  :
+**Description:** This section gives a general overview of text mining using `tidytext` functions.  The grammar and syntax of the `tidy` functions in R are quite different.  
 *  _tibble_ Data Type,
 *  _tidyverse_ Functions
     *  _filter_
     *  _arrange_
     *  _select_
-    *  _mutate)_
+    *  _mutate_
     *  _summarize_
     *  _group_by_
 *  Converting text to words,
@@ -20,6 +20,8 @@ Use Case: For Learners in the humanities who are interested in learning about te
 Difficulty: Beginner
 
 Completion Time: 75 minutes
+
+
 ## Before we get started . . .
 There is a function and an operator that you will want to see.
 1. **`grepl` Function**:  The `grepl` function is included in base R, and is able to determine if a substring exists in a string.  The format is 
