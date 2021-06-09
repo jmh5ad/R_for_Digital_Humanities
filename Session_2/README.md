@@ -108,11 +108,6 @@ print(text_table)
 
 <font color=blue>---------------------------------------------------------------</font>
 
-### Activity: Create a tibble
-* Open the file `02_tibbles_from_text.R` in RStudio and source it.
-* Notice that the `print` statement prints only the first 10 rows of the table.  This is by design so that we aren't overwhelmed when viewing the table.
-* 
-<font color=blue>---------------------------------------------------------------</font>
 
 For the functions provided in the _tidytext_ package, we will need for the text to be in a _tibble_ format.
 
