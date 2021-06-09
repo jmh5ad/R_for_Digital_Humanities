@@ -1,12 +1,18 @@
 #  Introduction to R Programming 
 
 **Description:** This section gives a general overview of text mining using `tidytext` functions.  The grammar and syntax of the `tidy` functions in R are quite different.  :
-*  Variables & Assignment Statements,
-*  Variables that Hold Lists & Vectors,
-*  Reading Text files and Writing Output to the Console,
-*  Existing Functions, 
-*  Creating word clouds, 
-*  Cleaning Text.
+*  _tibble_ Data Type,
+*  _tidyverse_ Functions
+    *  _filter_
+    *  _arrange_
+    *  _select_
+    *  _mutate)_
+    *  _summarize_
+    *  _group_by_
+*  Converting text to words,
+*  Counting words,
+*  Removing Stop Words
+*  Stemming
 
 Use Case: For Learners in the humanities who are interested in learning about text processing.
  (Not intended for researchers)
@@ -31,7 +37,7 @@ print(gotMilk)
 ```
  
 # Text Mining in R
-Before we start this section, there are two items that you will need to see.
+
 
 ## tidytext
 
