@@ -4,4 +4,5 @@ install.packages("RColorBrewer")
 install.packages("tm")
 install.packages("wordcloud")
 install.packages("SnowballC")
+install.packages("tidytext")
 
