@@ -1,4 +1,5 @@
 library(tidytext)
+library(dplyr, warn.conflicts = FALSE)
 
 ## Read in the text
 filename <- '../Data/austen-emma-excerpt.txt'
